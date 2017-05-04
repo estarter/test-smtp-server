@@ -5,11 +5,11 @@ import java.io.File;
 import org.subethamail.smtp.helper.SimpleMessageListenerAdapter;
 import org.subethamail.smtp.server.SMTPServer;
 
-public class SmtpServerImpl  {
+public class SmtpServer {
     private final MessageListener messageListener;
     private final SMTPServer server;
 
-    public SmtpServerImpl(MessageListener messageListener) {
+    public SmtpServer(MessageListener messageListener) {
         this.messageListener = messageListener;
 
         File mailbox = new File(MessageListener.MAILBOX);

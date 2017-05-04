@@ -24,9 +24,11 @@ COPY server/target/dependency/* /opt/karaf/deploy/
 COPY server/target/server-*.jar /opt/karaf/deploy/.
 
 # web interface
-EXPOSE 8181
+EXPOSE 8080
 # smtp
 EXPOSE 25
+# debug
+EXPOSE 5005
 
 WORKDIR /opt/karaf
 

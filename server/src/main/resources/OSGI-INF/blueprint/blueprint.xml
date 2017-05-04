@@ -7,10 +7,10 @@
            >
 
     <bean id="messageListener" class="com.github.estarter.test.smtp.server.smtp.MessageListener"/>
-    <bean id="smtpServer" class="com.github.estarter.test.smtp.server.smtp.SmtpServerImpl">
+    <bean id="smtpServer" class="com.github.estarter.test.smtp.server.smtp.SmtpServer">
         <argument ref="messageListener"/>
     </bean>
-	<bean id="emailServer" class="com.github.estarter.test.smtp.server.ui.EmailServiceImpl">
+	<bean id="emailServer" class="com.github.estarter.test.smtp.server.ui.EmailService">
         <argument ref="messageListener"/>
     </bean>
 
