@@ -19,11 +19,11 @@ RUN echo -ne "#!/bin/sh\ntail --retry -f /opt/karaf/data/log/karaf.log" > /usr/b
 COPY runtime/target/runtime-*.zip /opt/runtime.zip
 RUN cd /opt && unzip runtime.zip -d karaf && rm runtime.zip && \
     mv /opt/karaf/*/* /opt/karaf && rm -rf /opt/karaf/runtime*
+COPY server/target/dependency/*.jar /opt/karaf/deploy/.
 COPY server/target/server-*.jar /opt/karaf/deploy/.
 
 WORKDIR /opt/karaf
-# rest api
-EXPOSE 8080
+# web interface
 EXPOSE 8181
 # smtp
 EXPOSE 25

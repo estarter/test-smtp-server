@@ -7,6 +7,12 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>bundle</packaging>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.subethamail</groupId>
@@ -37,6 +43,7 @@
             <artifactId>pax-cdi-api</artifactId>
             <version>0.5.0</version>
             <optional>true</optional>
+            <scope>provided</scope>
             <exclusions>
                 <exclusion>
                     <groupId>org.osgi</groupId>
@@ -48,6 +55,21 @@
 
     <build>
         <plugins>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-deps</id>
+                        <goals><goal>copy-dependencies</goal></goals>
+                        <phase>compile</phase>
+                        <configuration>
+                            <excludeScope>provided</excludeScope>
+                            <excludeTransitive>true</excludeTransitive>
+                            <stripVersion>true</stripVersion>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
