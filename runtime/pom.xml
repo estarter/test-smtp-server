@@ -53,6 +53,8 @@
                     <!-- no startupFeatures -->
                     <bootFeatures>
                         <feature>standard</feature>
+                        <feature>http</feature>
+                        <feature>http-whiteboard</feature>
                         <feature>cxf</feature>
                     </bootFeatures>
                     <!-- no installedFeatures -->

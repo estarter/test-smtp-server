@@ -1,7 +1,42 @@
 package com.github.estarter.test.smtp.server;
 
-public class SmtpServerImpl implements Server {
-    public String execute(Integer emailId) {
-        return "hello";
+import org.ops4j.pax.cdi.api.OsgiServiceProvider;
+import org.ops4j.pax.cdi.api.Properties;
+import org.ops4j.pax.cdi.api.Property;
+
+import javax.servlet.Servlet;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+@OsgiServiceProvider(classes = Servlet.class)
+@Properties({
+    @Property(name = "osgi.http.whiteboard.servlet.pattern", value = "/emails") // For felix http, also in blueprint.xml
+})
+public class SmtpServerImpl extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        resp.setContentType("text/html");
+        String taskId = req.getParameter("emailId");
+        PrintWriter writer = resp.getWriter();
+        if (taskId != null && taskId.length() > 0) {
+            showEmail(writer, taskId);
+        } else {
+            showEmailList(writer);
+        }
     }
+
+    private void showEmailList(PrintWriter writer) {
+        writer.println("xxx");
+    }
+
+    private void showEmail(PrintWriter writer, String taskId) {
+        writer.println("yyy");
+    }
+
 }
