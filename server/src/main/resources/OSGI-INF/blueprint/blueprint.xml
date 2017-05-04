@@ -1,15 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
-	
-	<bean id="smtpServer"
-		class="com.github.estarter.test.smtp.server.SmtpServerImpl"
-		scope="singleton">
-	</bean>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xmlns:cxf="http://cxf.apache.org/blueprint/core"
+           xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
+           xmlns:jaxws="http://cxf.apache.org/blueprint/jaxws"
+           xmlns:httpj="http://cxf.apache.org/transports/http-jetty/configuration"
+           >
 
-	<service ref="smtpServer" interface="javax.servlet.http.HttpServlet">
-		<service-properties>
-			<entry key="alias" value="/emails" />
-		</service-properties>
-	</service>
+    <bean id="messageListener" class="com.github.estarter.test.smtp.server.smtp.MessageListener"/>
+    <bean id="smtpServer" class="com.github.estarter.test.smtp.server.smtp.SmtpServer">
+        <argument ref="messageListener"/>
+    </bean>
+	<bean id="emailServer" class="com.github.estarter.test.smtp.server.ui.EmailService">
+        <argument ref="messageListener"/>
+    </bean>
+
+    <cxf:bus id="emailServiceBus">
+    </cxf:bus>
+
+    <jaxrs:server id="emailService" depends-on="tls.engine"
+                  address="http://localhost:8080/"
+                  publishedEndpointUrl="http://localhost:8080/">
+        <jaxrs:serviceBeans>
+            <ref component-id="emailServer" />
+        </jaxrs:serviceBeans>
+        <jaxrs:features>
+            <cxf:logging />
+        </jaxrs:features>
+        <jaxrs:providers>
+        </jaxrs:providers>
+    </jaxrs:server>
+
+    <httpj:engine-factory id="tls.engine">
+        <httpj:engine port="8080">
+        </httpj:engine>
+    </httpj:engine-factory>
 
 </blueprint>

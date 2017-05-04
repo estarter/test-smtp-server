@@ -8,7 +8,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>runtime</module>
         <module>server</module>
+        <module>runtime</module>
     </modules>
 </project>

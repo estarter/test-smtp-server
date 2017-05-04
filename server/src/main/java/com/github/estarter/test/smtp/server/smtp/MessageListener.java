@@ -1,4 +1,4 @@
-package com.github.estarter.test.smtp.server;
+package com.github.estarter.test.smtp.server.smtp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,13 +11,16 @@ import javax.mail.internet.MimeMessage;
 import java.io.*;
 import java.util.ArrayList;
 
+import com.github.estarter.test.smtp.server.ui.Email;
+
 /**
  * @author Alexey Merezhin
  */
 public class MessageListener implements SimpleMessageListener {
     public static final String MAILBOX = "/opt/mailbox";
     static Logger logger = LoggerFactory.getLogger(MessageListener.class);
-    public ArrayList<MimeMessage> messages = new ArrayList<>();
+    public ArrayList<Email> messages = new ArrayList<>();
+    private static int counter = 0;
 
     public boolean accept(String from, String recipient) {
         logger.info("accept message from {} to {}", from, recipient);
@@ -35,7 +38,7 @@ public class MessageListener implements SimpleMessageListener {
             logger.debug(baos.toString());
             // message.writeTo(new FileOutputStream(getMessageFile(recipient, message)));
             logger.info("read email to {} subject '{}'", message.getRecipients(Message.RecipientType.TO), message.getSubject());
-            messages.add(message);
+            messages.add(new Email(++counter, message));
         } catch (MessagingException e) {
             /* as it normally happens don't treat it as an error. todo how to fix? */
             logger.info("failed to read email");
@@ -49,5 +52,12 @@ public class MessageListener implements SimpleMessageListener {
             part2 = message.getSubject().replaceAll("[\\W]+", "_");
         }
         return new File(MAILBOX, part1 + "___" + part2 + ".msg");
+    }
+
+    public Email getEmail(int id) {
+        for (Email msg : messages) {
+            if (msg.id == id) return msg;
+        }
+        return null;
     }
 }
