@@ -1,12 +1,12 @@
 package com.github.estarter.test.smtp.server;
 
-import org.ops4j.pax.cdi.api.OsgiServiceProvider;
-import org.ops4j.pax.cdi.api.Properties;
-import org.ops4j.pax.cdi.api.Property;
+// import org.ops4j.pax.cdi.api.OsgiServiceProvider;
+// import org.ops4j.pax.cdi.api.Properties;
+// import org.ops4j.pax.cdi.api.Property;
 import org.subethamail.smtp.helper.SimpleMessageListenerAdapter;
 import org.subethamail.smtp.server.SMTPServer;
 
-import javax.servlet.Servlet;
+// import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,10 +15,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@OsgiServiceProvider(classes = Servlet.class)
-@Properties({
-    @Property(name = "osgi.http.whiteboard.servlet.pattern", value = "/emails") // For felix http, also in blueprint.xml
-})
+// @OsgiServiceProvider(classes = Servlet.class)
+// @Properties({
+//     @Property(name = "osgi.http.whiteboard.servlet.pattern", value = "/emails") // For felix http, also in blueprint.xml
+// })
 public class SmtpServerImpl extends HttpServlet {
     private final MessageListener messageListener;
     private final SMTPServer server;

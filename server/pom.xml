@@ -38,6 +38,7 @@
             <version>6.0.0</version>
             <scope>provided</scope>
         </dependency>
+<!--
         <dependency>
             <groupId>org.ops4j.pax.cdi</groupId>
             <artifactId>pax-cdi-api</artifactId>
@@ -51,6 +52,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+-->
     </dependencies>
 
     <build>
@@ -78,10 +80,11 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Bundle-Name>${project.name}</Bundle-Name>
-                        <Bundle-Version>${project.version}</Bundle-Version>
-                        <Bundle-DocURL>${project.url}</Bundle-DocURL>
-                        <Export-Package>ch.e3ag.dlp.test.smtp.server</Export-Package>
+                        <Import-Package>
+                            javax.ws.rs.*;version="[1.1,3)",
+                            org.apache.cxf.*;version="[2,4)",
+                            *
+                        </Import-Package>
                     </instructions>
                 </configuration>
             </plugin>
