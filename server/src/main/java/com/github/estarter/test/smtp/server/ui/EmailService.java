@@ -60,4 +60,25 @@ public class EmailService {
         return mapper.writeValueAsString(msg);
     }
 
+    @GET
+    @Path("/delete")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deleteEmails() throws JsonProcessingException {
+        int originalAmount = listener.messages.size();
+        listener.messages.clear();
+        logger.info("delete all emails");
+        return String.valueOf(originalAmount - listener.messages.size());
+    }
+
+    @GET
+    @Path("/delete/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deleteEmails(@PathParam("id") String emailId) throws JsonProcessingException {
+        int originalAmount = listener.messages.size();
+        int id = Integer.parseInt(emailId);
+        Email msg = listener.getEmail(id);
+        listener.messages.remove(msg);
+        logger.info("delete emails {} ", msg);
+        return String.valueOf(originalAmount - listener.messages.size());
+    }
 }
