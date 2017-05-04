@@ -1,4 +1,4 @@
-package com.github.estarter.test.smtp.server;
+package com.github.estarter.test.smtp.server.smtp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

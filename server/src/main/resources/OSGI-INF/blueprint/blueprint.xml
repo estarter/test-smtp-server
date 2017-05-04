@@ -6,11 +6,15 @@
            xmlns:httpj="http://cxf.apache.org/transports/http-jetty/configuration"
            >
 
-    <bean id="smtpServer" class="com.github.estarter.test.smtp.server.SmtpServerImpl"/>
+    <bean id="messageListener" class="com.github.estarter.test.smtp.server.smtp.MessageListener"/>
+    <bean id="smtpServer" class="com.github.estarter.test.smtp.server.smtp.SmtpServerImpl">
+        <argument ref="messageListener"/>
+    </bean>
+	<bean id="emailServer" class="com.github.estarter.test.smtp.server.ui.EmailServiceImpl">
+        <argument ref="messageListener"/>
+    </bean>
 
-	<bean id="emailServer" class="com.github.estarter.test.smtp.server.EmailServiceImpl"/>
-
-    <cxf:bus id="personServiceBus">
+    <cxf:bus id="emailServiceBus">
     </cxf:bus>
 
     <jaxrs:server id="emailService" depends-on="tls.engine"

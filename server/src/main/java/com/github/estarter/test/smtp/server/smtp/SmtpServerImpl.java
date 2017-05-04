@@ -1,4 +1,4 @@
-package com.github.estarter.test.smtp.server;
+package com.github.estarter.test.smtp.server.smtp;
 
 import java.io.File;
 
@@ -9,13 +9,14 @@ public class SmtpServerImpl  {
     private final MessageListener messageListener;
     private final SMTPServer server;
 
-    public SmtpServerImpl() {
+    public SmtpServerImpl(MessageListener messageListener) {
+        this.messageListener = messageListener;
+
         File mailbox = new File(MessageListener.MAILBOX);
         if (!mailbox.exists()) {
             mailbox.mkdirs();
         }
 
-        messageListener = new MessageListener();
         server = new SMTPServer(new SimpleMessageListenerAdapter(messageListener));
         server.setHostName("localhost");
         server.setPort(25);
