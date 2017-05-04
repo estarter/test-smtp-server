@@ -50,14 +50,13 @@
                 <version>4.1.1</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <!-- no startupFeatures -->
+                    <archiveTarGz>false</archiveTarGz>
                     <bootFeatures>
                         <feature>standard</feature>
                         <feature>http</feature>
                         <feature>http-whiteboard</feature>
                         <feature>cxf</feature>
                     </bootFeatures>
-                    <!-- no installedFeatures -->
                 </configuration>
             </plugin>
         </plugins>
