@@ -72,7 +72,7 @@
                         <goals><goal>copy-dependencies</goal></goals>
                         <phase>compile</phase>
                         <configuration>
-                            <excludeScope>provided</excludeScope>
+                            <includeScope>runtime</includeScope>
                             <excludeTransitive>true</excludeTransitive>
                             <stripVersion>true</stripVersion>
                         </configuration>
