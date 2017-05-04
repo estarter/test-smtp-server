@@ -6,20 +6,18 @@
            >
 	
 	<bean id="smtpServer"
-		class="com.github.estarter.test.smtp.server.SmtpServerImpl"
-		scope="singleton">
-	</bean>
+		class="com.github.estarter.test.smtp.server.SmtpServerImpl"/>
 
+	<!--
 	<service ref="smtpServer" interface="javax.servlet.http.HttpServlet">
 		<service-properties>
 			<entry key="alias" value="/emails" />
 		</service-properties>
 	</service>
+	-->
 
     <cxf:bus id="personServiceBus">
     </cxf:bus>
-
-    <bean id="emailServiceImpl" class="com.github.estarter.test.smtp.server.EmailServiceImpl"/>
 
 <!--
     <jaxws:endpoint
@@ -30,11 +28,13 @@
 
     <jaxrs:server address="/email" id="emailService">
         <jaxrs:serviceBeans>
-            <ref component-id="emailServiceImpl" />
+            <ref component-id="smtpServer" />
         </jaxrs:serviceBeans>
         <jaxrs:features>
             <cxf:logging />
         </jaxrs:features>
+        <jaxrs:providers>
+        </jaxrs:providers>
     </jaxrs:server>
 
     <!--

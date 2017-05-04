@@ -10,7 +10,7 @@
     <properties>
         <karafVersion>4.1.1</karafVersion>
         <bouncycastle.version>1.54</bouncycastle.version>
-        <cxfVersion>3.1.11</cxfVersion>
+        <cxf.version>3.1.11</cxf.version>
     </properties>
 
     <dependencies>
@@ -35,7 +35,7 @@
             <artifactId>apache-cxf</artifactId>
             <classifier>features</classifier>
             <type>xml</type>
-            <version>${cxfVersion}</version>
+            <version>${cxf.version}</version>
             <scope>runtime</scope>
         </dependency>
 
