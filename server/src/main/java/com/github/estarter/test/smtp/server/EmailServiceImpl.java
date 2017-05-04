@@ -12,10 +12,9 @@ import javax.ws.rs.core.MediaType;
 public class EmailServiceImpl {
 
     @GET
-    @Path("/emails")
-    @Produces(MediaType.APPLICATION_XML)
-    public Email[] getAll() {
-        Email email = new Email();
-        return new Email[]{email};
+    @Path("/test")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getAll() {
+        return "ok";
     }
 }

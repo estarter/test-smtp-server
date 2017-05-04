@@ -23,9 +23,11 @@ RUN cd /opt && unzip runtime.zip -d karaf && rm runtime.zip && \
 COPY server/target/dependency/* /opt/karaf/deploy/
 COPY server/target/server-*.jar /opt/karaf/deploy/.
 
-WORKDIR /opt/karaf
 # web interface
 EXPOSE 8181
 # smtp
 EXPOSE 25
 
+WORKDIR /opt/karaf
+
+CMD ["bin/karaf", "debug"]
