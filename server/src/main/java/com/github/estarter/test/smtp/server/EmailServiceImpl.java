@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 public class EmailServiceImpl {
 
     @GET
-    @Path("/test")
+    @Path("/emails")
     @Produces(MediaType.APPLICATION_JSON)
     public String getAll() {
         return "ok";

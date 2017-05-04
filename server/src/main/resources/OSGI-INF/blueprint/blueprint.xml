@@ -5,33 +5,19 @@
            xmlns:jaxws="http://cxf.apache.org/blueprint/jaxws"
            xmlns:httpj="http://cxf.apache.org/transports/http-jetty/configuration"
            >
-	
-	<bean id="smtpServer"
-		class="com.github.estarter.test.smtp.server.EmailServiceImpl"/>
 
-	<!--
-	<service ref="smtpServer" interface="javax.servlet.http.HttpServlet">
-		<service-properties>
-			<entry key="alias" value="/emails" />
-		</service-properties>
-	</service>
-	-->
+    <bean id="smtpServer" class="com.github.estarter.test.smtp.server.SmtpServerImpl"/>
+
+	<bean id="emailServer" class="com.github.estarter.test.smtp.server.EmailServiceImpl"/>
 
     <cxf:bus id="personServiceBus">
     </cxf:bus>
-
-<!--
-    <jaxws:endpoint
-            implementor="#emailServiceImpl"
-            address="/emailService"
-            implementorClass="com.github.estarter.test.smtp.server.EmailServiceImpl"/>
--->
 
     <jaxrs:server id="emailService" depends-on="tls.engine"
                   address="http://localhost:8080/"
                   publishedEndpointUrl="http://localhost:8080/">
         <jaxrs:serviceBeans>
-            <ref component-id="smtpServer" />
+            <ref component-id="emailServer" />
         </jaxrs:serviceBeans>
         <jaxrs:features>
             <cxf:logging />
@@ -44,16 +30,5 @@
         <httpj:engine port="8080">
         </httpj:engine>
     </httpj:engine-factory>
-
-    <!--
-        <jaxrs:server address="/person" id="personService">
-            <jaxrs:serviceBeans>
-                <ref component-id="personServiceImpl" />
-            </jaxrs:serviceBeans>
-            <jaxrs:features>
-                <cxf:logging />
-            </jaxrs:features>
-        </jaxrs:server>
-    -->
 
 </blueprint>
