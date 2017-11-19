@@ -1,3 +1,8 @@
+FROM maven:3.5.2-jdk-8
+
+COPY . /workdir
+RUN cd /workdir && mvn package
+
 FROM java:8-jdk
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
@@ -15,13 +20,12 @@ RUN echo "Europe/Zurich" > /etc/timezone && \
 RUN echo -ne "#!/bin/sh\ntail --retry -f /opt/karaf/data/log/karaf.log" > /usr/bin/dlog && \
     chmod +x /usr/bin/dlog
 
+COPY --from=0 /workdir/runtime/target/runtime-*.zip /opt/runtime.zip
+COPY --from=0 /workdir/server/target/dependency/* /opt/karaf/deploy/
+COPY --from=0 /workdir/server/target/server-*.jar /opt/karaf/deploy/.
 
-COPY runtime/target/runtime-*.zip /opt/runtime.zip
 RUN cd /opt && unzip runtime.zip -d karaf && rm runtime.zip && \
     mv /opt/karaf/*/* /opt/karaf && rm -rf /opt/karaf/runtime*
-#COPY server/target/dependency/*.jar /opt/karaf/deploy/.
-COPY server/target/dependency/* /opt/karaf/deploy/
-COPY server/target/server-*.jar /opt/karaf/deploy/.
 
 # web interface
 EXPOSE 8080
