@@ -1,0 +1,37 @@
+<div class="modal-header ng-scope">
+    <h3 class="modal-title" id="modal-title">Email details #{{email.id}}</h3>
+</div>
+<div class="modal-body ng-scope" id="modal-body">
+    <div class="panel panel-default">
+        <table class="table table-bordered table-hover table-sm">
+            <tr>
+                <th>ID</th>
+                <td>{{email.id}}</td>
+            </tr>
+            <tr>
+                <th>Mailbox</th>
+                <td>{{email.user}}</td>
+            </tr>
+            <tr>
+                <th>From</th>
+                <td>{{email.sender}}</td>
+            </tr>
+            <tr>
+                <th>To</th>
+                <td>{{email.recipients.join(', ')}}</td>
+            </tr>
+            <tr>
+                <th>Subject</th>
+                <td>{{email.subject}}</td>
+            </tr>
+            <tr>
+                <th>Message</th>
+                <td>{{email.body}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="modal-footer ng-scope">
+    <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+</div>

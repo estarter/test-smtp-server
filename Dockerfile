@@ -1,7 +1,8 @@
 FROM maven:3.5.2-jdk-8
 
 COPY . /workdir
-RUN cd /workdir && mvn package
+# FIXME: skip the tests during the image build - we need to build the server for 25 port, and the test will fail with this port.
+RUN cd /workdir && mvn -Dsmtp.port=25 -DskipTests package
 
 FROM java:8-jdk
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
@@ -17,23 +18,20 @@ RUN echo "set completion-ignore-case on" >> /etc/inputrc
 RUN echo "Europe/Zurich" > /etc/timezone && \
     dpkg-reconfigure -f noninteractive tzdata
 
-RUN echo -ne "#!/bin/sh\ntail --retry -f /opt/karaf/data/log/karaf.log" > /usr/bin/dlog && \
+RUN echo "#!/bin/sh\ntail --retry -f /var/log/server.log" > /usr/bin/dlog && \
     chmod +x /usr/bin/dlog
 
-COPY --from=0 /workdir/runtime/target/runtime-*.zip /opt/runtime.zip
-COPY --from=0 /workdir/server/target/dependency/* /opt/karaf/deploy/
-COPY --from=0 /workdir/server/target/server-*.jar /opt/karaf/deploy/.
+RUN echo "#!/bin/sh\njava -jar /opt/server.jar > /var/log/server.log" > /usr/bin/run.sh && \
+    chmod +x /usr/bin/run.sh
 
-RUN cd /opt && unzip runtime.zip -d karaf && rm runtime.zip && \
-    mv /opt/karaf/*/* /opt/karaf && rm -rf /opt/karaf/runtime*
+COPY --from=0 /workdir/target/server-*.jar /opt/server.jar
+
 
 # web interface
 EXPOSE 8080
 # smtp
 EXPOSE 25
-# debug
-EXPOSE 5005
 
-WORKDIR /opt/karaf
+WORKDIR /opt
 
-CMD ["bin/karaf", "debug"]
+CMD ["/usr/bin/run.sh"]
